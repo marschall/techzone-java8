@@ -8,7 +8,7 @@ import org.junit.Test;
 public class TypeInferenceTest {
 
   @Test
-  void processStringList() {
+  public void processStringList() {
     processStringList(Collections.emptyList());
 //    processStringList(Collections.<String>emptyList());
   }
