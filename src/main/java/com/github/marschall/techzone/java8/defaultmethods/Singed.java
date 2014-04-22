@@ -15,5 +15,9 @@ public interface Singed {
     LOGGER.trace("default isNegative() called");
     return !isPositive();
   }
+  
+  public static void main(String[] args) {
+    System.out.println("hello");
+  }
 
 }
