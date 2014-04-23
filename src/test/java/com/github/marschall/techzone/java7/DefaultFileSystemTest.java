@@ -7,7 +7,10 @@ import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +25,9 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -116,6 +121,22 @@ public class DefaultFileSystemTest {
     attributes = Files.readAttributes(pom, PosixFileAttributes.class);
 
     assertTrue(attributes.permissions().contains(PosixFilePermission.OWNER_READ));
+  }
+  
+  @Test
+  public void zip() throws IOException {
+    
+    Map<String, String> env = Collections.singletonMap("create", "true");
+    Path zipFile = Paths.get("target", "sample.zip");
+    URI uri = URI.create("jar:" + zipFile.toUri());
+    
+    try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
+      Path pom = Paths.get("pom.xml");
+      Path zipRoot = zipfs.getPath("/");
+      Files.copy(pom, zipRoot.resolve(pom.getFileName().toString()));
+    } finally {
+      Files.deleteIfExists(zipFile);
+    }
   }
 
 }
