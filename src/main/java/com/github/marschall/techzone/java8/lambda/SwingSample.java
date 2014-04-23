@@ -21,7 +21,7 @@ public class SwingSample {
   }
   
   static JFrame makeFrame() {
-    JFrame frame = new JFrame("Java 8 Demo");
+    JFrame frame = new JFrame("Java 8 \u03BB Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     Container contentPane = frame.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
