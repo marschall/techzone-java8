@@ -12,7 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +75,26 @@ public class DefaultFileSystemTest {
       }
     });
     assertTrue(javaFiles.size() > 5);
+  }
+  
+  @Test
+  public void fileAttributeViews() throws IOException {
+    Path pom = Paths.get("pom.xml");
+    BasicFileAttributeView view = Files.getFileAttributeView(pom, BasicFileAttributeView.class);
+//    view.setTimes(null, null, null);
+    
+    BasicFileAttributes attributes = view.readAttributes();
+    attributes = Files.readAttributes(pom, BasicFileAttributes.class);
+    
+    FileTime creationTime1 = attributes.creationTime();
+    FileTime creationTime2 = (FileTime) Files.getAttribute(pom, "basic:creationTime");
+    FileTime creationTime3 = (FileTime) Files.getAttribute(pom, "creationTime");
+    assertEquals(creationTime1, creationTime2);
+    assertEquals(creationTime2, creationTime3);
+    
+    Instant instant = creationTime1.toInstant();
+    ZonedDateTime expected = ZonedDateTime.parse("2014-04-22T10:31:38Z");
+    assertEquals(expected.toInstant(), instant);
   }
 
 }
