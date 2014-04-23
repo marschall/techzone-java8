@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -50,6 +51,11 @@ public class StreamTest {
         .mapToInt(Person::getAge)
         .average()
         .getAsDouble();
+    
+    List<Person> males = roster
+        .stream()
+        .filter(p -> p.getGender() == Person.Sex.MALE)
+        .collect(Collectors.toList());
   }
   
   static final class Person {

@@ -57,20 +57,20 @@ public class MemoryFileSystemTest {
   
   @Test
   public void pathOperations() {
-    Path source = this.fileSystem.getPath("src", "demo", "resources", "data.sql");
-    assertFalse(source.isAbsolute());
+    Path data = this.fileSystem.getPath("src", "demo", "resources", "data.sql");
+    assertFalse(data.isAbsolute());
     
-    assertEquals("src/demo/resources/data.sql", source.toString());
+    assertEquals("src/demo/resources/data.sql", data.toString());
     
-    assertEquals("src/demo/resources/schema.sql", source.getParent().resolve("schema.sql").toString());
-    assertEquals("src/demo/resources/schema.sql", source.resolveSibling("schema.sql").toString());
+    assertEquals("src/demo/resources/schema.sql", data.getParent().resolve("schema.sql").toString());
+    assertEquals("src/demo/resources/schema.sql", data.resolveSibling("schema.sql").toString());
     
     Path schema = this.fileSystem.getPath("schema.sql");
-    assertEquals("src/demo/resources/schema.sql", source.getParent().resolve(schema).toString());
-    assertEquals("src/demo/resources/schema.sql", source.resolveSibling(schema).toString());
+    assertEquals("src/demo/resources/schema.sql", data.getParent().resolve(schema).toString());
+    assertEquals("src/demo/resources/schema.sql", data.resolveSibling(schema).toString());
     
     Path demoFolder = this.fileSystem.getPath("src", "demo");
-    assertEquals("resources/data.sql", demoFolder.relativize(source).toString());
+    assertEquals("resources/data.sql", demoFolder.relativize(data).toString());
   }
 
 }

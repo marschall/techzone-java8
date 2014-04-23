@@ -28,7 +28,8 @@ public class SwingSample {
     JButton button1 = new JButton("Button 1");
     // lambda 1
     button1.addActionListener((ActionEvent e) -> {
-      System.out.println("button 1 pressed at: " + Instant.ofEpochMilli(e.getWhen()));}
+        System.out.println("button 1 pressed at: " + Instant.ofEpochMilli(e.getWhen()));
+      }
     );
     contentPane.add(button1);
     

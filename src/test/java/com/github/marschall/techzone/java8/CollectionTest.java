@@ -16,6 +16,9 @@ import org.junit.Test;
 
 public class CollectionTest {
   
+  
+  // forEach
+  
   @Test
   public void collectionRemoveIf() {
     Collection<String> databases = new ArrayList<>(Arrays.asList("DB2", "Derby", "H2", "HSQL"));

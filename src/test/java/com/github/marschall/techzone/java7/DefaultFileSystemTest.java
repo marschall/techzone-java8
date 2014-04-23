@@ -126,7 +126,7 @@ public class DefaultFileSystemTest {
   @Test
   public void zip() throws IOException {
     
-    Map<String, String> env = Collections.singletonMap("create", "true");
+    Map<String, ?> env = Collections.singletonMap("create", "true");
     Path zipFile = Paths.get("target", "sample.zip");
     URI uri = URI.create("jar:" + zipFile.toUri());
     

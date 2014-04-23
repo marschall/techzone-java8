@@ -10,7 +10,7 @@ public class TypeInferenceTest {
   @Test
   public void processStringList() {
     processStringList(Collections.emptyList());
-//    processStringList(Collections.<String>emptyList());
+    processStringList(Collections.<String>emptyList());
   }
   void processStringList(List<String> stringList) {
     // process stringList
