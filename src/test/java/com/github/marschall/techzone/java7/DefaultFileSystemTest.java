@@ -3,6 +3,7 @@ package com.github.marschall.techzone.java7;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,9 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -23,7 +27,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class DefaultFileSystemTest {
-  
+
   @Test
   public void copy() throws IOException {
     Path source = Paths.get("src/test/resources/data.sql");
@@ -40,15 +44,15 @@ public class DefaultFileSystemTest {
       Files.deleteIfExists(target);
       Files.deleteIfExists(target.getParent());
     }
-    
+
   }
-  
+
   @Test
   public void conversion() {
     File file = Paths.get("src/test/resources/data.sql").toFile();
     Path path = new File("src/test/resources/data.sql").toPath();
   }
-  
+
   @Test
   public void directoryStream() throws IOException {
     Path folder = Paths.get("src", "test", "java", "com", "github", "marschall", "techzone", "java8");
@@ -60,7 +64,7 @@ public class DefaultFileSystemTest {
     }
     assertEquals(3, tests.size());
   }
-  
+
   @Test
   public void walkFile() throws IOException {
     Path folder = Paths.get("src", "test", "java");
@@ -76,25 +80,42 @@ public class DefaultFileSystemTest {
     });
     assertTrue(javaFiles.size() > 5);
   }
-  
+
   @Test
   public void fileAttributeViews() throws IOException {
     Path pom = Paths.get("pom.xml");
     BasicFileAttributeView view = Files.getFileAttributeView(pom, BasicFileAttributeView.class);
 //    view.setTimes(null, null, null);
-    
+
     BasicFileAttributes attributes = view.readAttributes();
     attributes = Files.readAttributes(pom, BasicFileAttributes.class);
-    
+
     FileTime creationTime1 = attributes.creationTime();
     FileTime creationTime2 = (FileTime) Files.getAttribute(pom, "basic:creationTime");
     FileTime creationTime3 = (FileTime) Files.getAttribute(pom, "creationTime");
     assertEquals(creationTime1, creationTime2);
     assertEquals(creationTime2, creationTime3);
-    
+
     Instant instant = creationTime1.toInstant();
     ZonedDateTime expected = ZonedDateTime.parse("2014-04-22T10:31:38Z");
     assertEquals(expected.toInstant(), instant);
+  }
+
+
+  @Test
+  public void permissions() throws IOException {
+    Path pom = Paths.get("pom.xml");
+
+    assumeTrue(pom.getFileSystem().supportedFileAttributeViews().contains("posix"));
+
+    PosixFileAttributeView view = Files.getFileAttributeView(pom, PosixFileAttributeView.class);
+    assertEquals("posix", view.name());
+//    view.setPermissions(null);
+
+    PosixFileAttributes attributes = view.readAttributes();
+    attributes = Files.readAttributes(pom, PosixFileAttributes.class);
+
+    assertTrue(attributes.permissions().contains(PosixFilePermission.OWNER_READ));
   }
 
 }
