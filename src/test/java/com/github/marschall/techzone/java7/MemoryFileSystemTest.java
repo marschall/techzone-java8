@@ -1,6 +1,8 @@
 package com.github.marschall.techzone.java7;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -32,15 +34,15 @@ public class MemoryFileSystemTest {
   
   @Test
   public void copy() throws IOException {
-    Path source = this.fileSystem.getPath("src/test/resources/data.sql");
+    Path source = this.fileSystem.getPath("src/demo/resources/data.sql");
+    source = this.fileSystem.getPath("src").resolve("demo").resolve("resources").resolve("data.sql");
+    source = this.fileSystem.getPath("src", "demo", "resources", "data.sql");
     
     Files.createDirectories(source.getParent());
     try (BufferedWriter output = Files.newBufferedWriter(source, US_ASCII)) {
       output.write("SELECT 1 FROM dual;");
     }
     
-    source = this.fileSystem.getPath("src").resolve("test").resolve("resources").resolve("data.sql");
-    source = this.fileSystem.getPath("src", "test", "resources", "data.sql");
     
     Path target = this.fileSystem.getPath("target", "demo", "file.sql");
     Files.createDirectories(target.getParent());
@@ -51,6 +53,24 @@ public class MemoryFileSystemTest {
       Files.deleteIfExists(target.getParent());
     }
     
+  }
+  
+  @Test
+  public void pathOperations() {
+    Path source = this.fileSystem.getPath("src", "demo", "resources", "data.sql");
+    assertFalse(source.isAbsolute());
+    
+    assertEquals("src/demo/resources/data.sql", source.toString());
+    
+    assertEquals("src/demo/resources/schema.sql", source.getParent().resolve("schema.sql").toString());
+    assertEquals("src/demo/resources/schema.sql", source.resolveSibling("schema.sql").toString());
+    
+    Path schema = this.fileSystem.getPath("schema.sql");
+    assertEquals("src/demo/resources/schema.sql", source.getParent().resolve(schema).toString());
+    assertEquals("src/demo/resources/schema.sql", source.resolveSibling(schema).toString());
+    
+    Path demoFolder = this.fileSystem.getPath("src", "demo");
+    assertEquals("resources/data.sql", demoFolder.relativize(source).toString());
   }
 
 }
