@@ -1,4 +1,4 @@
-package com.github.marschall.techzone.java8.defaultmethods;
+package com.github.marschall.techzone.java8.defaultmethods.demo;
 
 import java.lang.invoke.MethodHandles;
 

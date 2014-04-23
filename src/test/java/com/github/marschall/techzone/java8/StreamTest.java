@@ -3,6 +3,8 @@ package com.github.marschall.techzone.java8;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -35,6 +37,37 @@ public class StreamTest {
       .filter((i) -> (i % 2) == 0)
       .findFirst().getAsInt();
     assertEquals(1000004, value);
+  }
+  
+  @Test
+  public void streamOnCollection() {
+    List<Person> roster = new ArrayList<>();
+    // TODO add persons
+    double average = roster
+        .stream()
+//        .parallelStream()
+        .filter(p -> p.getGender() == Person.Sex.MALE)
+        .mapToInt(Person::getAge)
+        .average()
+        .getAsDouble();
+  }
+  
+  static final class Person {
+    
+    enum Sex {
+      MALE,
+      FEMALE,
+      YES_PLEASE;
+    }
+    
+    int getAge() {
+      return 42;
+    }
+    
+    Sex getGender() {
+      return Sex.YES_PLEASE;
+    }
+    
   }
 
 }

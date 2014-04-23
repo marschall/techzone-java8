@@ -1,4 +1,4 @@
-package com.github.marschall.techzone.java8.defaultmethods;
+package com.github.marschall.techzone.java8.defaultmethods.multipleinheritance;
 
 import java.math.BigDecimal;
 
