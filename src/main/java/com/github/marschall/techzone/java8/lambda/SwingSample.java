@@ -24,11 +24,12 @@ public class SwingSample {
     JFrame frame = new JFrame("Java 8 \u03BB Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     Container contentPane = frame.getContentPane();
-    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
     JButton button1 = new JButton("Button 1");
     // lambda 1
     button1.addActionListener((ActionEvent e) -> {
         System.out.println("button 1 pressed at: " + Instant.ofEpochMilli(e.getWhen()));
+        return;
       }
     );
     contentPane.add(button1);
@@ -36,7 +37,8 @@ public class SwingSample {
     JButton button2 = new JButton("Button 2");
     // lambda 2
     button2.addActionListener((e) -> 
-      System.out.println("button 2 pressed at: " + Instant.ofEpochMilli(e.getWhen()))
+      // no final
+      System.out.println("button 2 pressed at: " + Instant.ofEpochMilli(e.getWhen()) + " in frame " + frame)
     );
     contentPane.add(button2);
     
