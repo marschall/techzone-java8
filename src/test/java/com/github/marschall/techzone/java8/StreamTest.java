@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
+import com.github.marschall.techzone.java8.StreamTest.Person.Sex;
+
 public class StreamTest {
 
   @Test
@@ -43,6 +45,7 @@ public class StreamTest {
   @Test
   public void streamOnCollection() {
     List<Person> roster = new ArrayList<>();
+    roster.add(new Person());
     // TODO add persons
     double average = roster
         .stream()
@@ -52,9 +55,10 @@ public class StreamTest {
         .average()
         .getAsDouble();
     
-    List<Person> males = roster
+    List<Sex> sexes = roster
         .stream()
-        .filter(p -> p.getGender() == Person.Sex.MALE)
+        .filter(p -> p.getAge() == 42)
+        .map(Person::getGender)
         .collect(Collectors.toList());
   }
   
@@ -71,7 +75,7 @@ public class StreamTest {
     }
     
     Sex getGender() {
-      return Sex.YES_PLEASE;
+      return Sex.MALE;
     }
     
   }

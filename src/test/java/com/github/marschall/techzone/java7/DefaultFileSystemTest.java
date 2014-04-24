@@ -67,7 +67,7 @@ public class DefaultFileSystemTest {
         tests.add(test);
       }
     }
-    assertEquals(3, tests.size());
+    assertEquals(5, tests.size());
   }
 
   @Test
