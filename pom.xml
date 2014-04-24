@@ -47,6 +47,12 @@
     </dependency>
     <dependency>
       <groupId>com.github.marschall</groupId>
+      <artifactId>junit-lambda</artifactId>
+      <version>0.1.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
       <version>0.5.4</version>
       <scope>test</scope>
