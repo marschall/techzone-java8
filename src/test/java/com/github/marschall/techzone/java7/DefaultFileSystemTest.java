@@ -102,8 +102,8 @@ public class DefaultFileSystemTest {
     assertEquals(creationTime2, creationTime3);
 
     Instant instant = creationTime1.toInstant();
-    ZonedDateTime expected = ZonedDateTime.parse("2014-04-22T10:31:38Z");
-    assertEquals(expected.toInstant(), instant);
+    ZonedDateTime expected = ZonedDateTime.parse("2014-04-22T10:00:00Z");
+    assertTrue(instant.isAfter(expected.toInstant()));
   }
 
 
