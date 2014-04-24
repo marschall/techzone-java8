@@ -1,11 +1,15 @@
 package com.github.marschall.techzone.java7;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.nio.file.StandardOpenOption.CREATE_NEW;
+import static java.nio.file.StandardOpenOption.WRITE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.ByteChannel;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -71,6 +75,20 @@ public class MemoryFileSystemTest {
     
     Path demoFolder = this.fileSystem.getPath("src", "demo");
     assertEquals("resources/data.sql", demoFolder.relativize(data).toString());
+  }
+  
+  @Test
+  public void options() throws IOException {
+    Path data = this.fileSystem.getPath("data.sql");
+    try (ByteChannel channel = Files.newByteChannel(data, CREATE_NEW, WRITE)) {
+      ByteBuffer buffer = ByteBuffer.wrap("SELECT * FROM dual".getBytes(US_ASCII));
+      int capacity = buffer.capacity();
+      int written = 0;
+      while (written < capacity) {
+        written += channel.write(buffer);
+      }
+    }
+    
   }
 
 }
