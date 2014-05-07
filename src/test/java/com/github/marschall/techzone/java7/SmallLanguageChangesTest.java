@@ -1,6 +1,8 @@
 package com.github.marschall.techzone.java7;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.junit.Test;
 
@@ -56,6 +59,14 @@ public class SmallLanguageChangesTest {
         i = 0;
     }
     assertEquals(2, i);
+  }
+  
+  @Test
+  public void objects() {
+    assertTrue(Objects.equals("a", new String("a")));
+    assertFalse(Objects.equals("a", null));
+    assertEquals(1, Objects.hashCode(Integer.valueOf(1)));
+    assertEquals(0, Objects.hashCode(null));
   }
 
 }
