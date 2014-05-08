@@ -6,6 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -27,6 +30,14 @@ public class SmallLanguageChangesTest {
   public void tryWithResources() throws IOException {
     try (InputStream stream = Files.newInputStream(Paths.get("pom.xml"))) {
       
+    }
+    try (InputStream stream = Files.newInputStream(Paths.get("pom.xml"));
+        Reader reader = new InputStreamReader(stream, StandardCharsets.US_ASCII)) {
+      
+    }
+    
+    try (NonThrowingAutoCloseable closeable = new SimpleNonThrowingAutoCloseable()) {
+      System.out.println("body");
     }
   }
 
@@ -67,6 +78,32 @@ public class SmallLanguageChangesTest {
     assertFalse(Objects.equals("a", null));
     assertEquals(1, Objects.hashCode(Integer.valueOf(1)));
     assertEquals(0, Objects.hashCode(null));
+  }
+  
+  @Test
+  public void autoCloseable() {
+    
+  }
+  
+  static interface NonThrowingAutoCloseable extends AutoCloseable {
+    
+    @Override
+    public void close();
+    
+  }
+  
+  static class SimpleNonThrowingAutoCloseable implements NonThrowingAutoCloseable {
+    
+    SimpleNonThrowingAutoCloseable() {
+      System.out.println("<init>");
+    }
+    
+    
+    @Override
+    public void close() {
+      System.out.println("close");
+    }
+    
   }
 
 }
