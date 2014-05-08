@@ -30,5 +30,12 @@ public class JUnitLambdaTest {
   private int aMethodThrowingException() {
     return 1 / 0;
   }
+  
+  @Test
+  public void autoCloseable() throws Exception {
+    try (AutoCloseable c = () -> System.out.println("close")) {
+      
+    }
+  }
 
 }
