@@ -5,6 +5,7 @@ import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@FunctionalInterface
 public interface Singed {
   
   static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

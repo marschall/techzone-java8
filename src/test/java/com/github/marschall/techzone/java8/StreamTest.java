@@ -36,7 +36,7 @@ public class StreamTest {
       .map((i) -> i + 1)
       .map((i) -> i + 1)
       .map((i) -> i + 1)
-      .skip(999999)
+      .skip(999_999)
       .filter((i) -> (i % 2) == 0)
       .findFirst().getAsInt();
     assertEquals(1000004, value);
@@ -60,6 +60,11 @@ public class StreamTest {
         .filter(p -> p.getAge() == 42)
         .map(Person::getGender)
         .collect(Collectors.toList());
+    
+    List<String> names = roster
+        .stream()
+        .map(Person::getName)
+        .collect(Collectors.toList());
   }
   
   static final class Person {
@@ -76,6 +81,10 @@ public class StreamTest {
     
     Sex getGender() {
       return Sex.MALE;
+    }
+    
+    String getName() {
+      return "Austin";
     }
     
   }

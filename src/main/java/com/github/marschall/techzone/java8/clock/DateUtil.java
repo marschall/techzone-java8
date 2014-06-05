@@ -16,7 +16,7 @@ public class DateUtil {
     return LocalDate.now(this.clock);
   }
   
-  public LocalDate getDateYesterdayTime() {
+  public LocalDate getDateYesterdayNotime() {
     return this.getDateTodayNoTime().minusDays(1L);
   }
   
