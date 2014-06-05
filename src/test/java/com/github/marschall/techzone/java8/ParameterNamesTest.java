@@ -17,7 +17,7 @@ public class ParameterNamesTest {
     Method method = ObjectAccessor.class.getDeclaredMethod("getValue", Object.class);
     Parameter[] parameters = method.getParameters();
     assertEquals(1, parameters.length);
-    assertEquals("arg0", parameters[0].getName());
+    assertEquals("o", parameters[0].getName());
   }
   
   @Test

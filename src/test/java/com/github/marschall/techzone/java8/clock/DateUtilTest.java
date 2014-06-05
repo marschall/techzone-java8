@@ -39,7 +39,7 @@ public class DateUtilTest {
   
   @Test
   public void getDateYesterdayTime() {
-    LocalDate dateYesterdayNoTime = this.dateUtil.getDateYesterdayTime();
+    LocalDate dateYesterdayNoTime = this.dateUtil.getDateYesterdayNoTime();
     assertEquals(LocalDate.of(2014, Month.APRIL, 23), dateYesterdayNoTime);
   }
   
